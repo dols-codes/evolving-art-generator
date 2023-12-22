@@ -3,5 +3,6 @@
     "startDateTime": "2023-11-02T00:00:00Z",
     "endDateTime": "2023-11-10T00:00:00Z",
     "interval": 86400,
-    "maxConcurrentBrowsers": 5
+    "maxConcurrentBrowsers": 5,
+    "deletePNGs": true
 }

@@ -2,6 +2,7 @@ const GIFEncoder = require('gifencoder');
 const PNG = require('png-js');
 const fs = require('fs');
 const path = require('path');
+const config = require('../config/default.json');
 
 function decodePNG(filePath) {
     return new Promise((resolve, reject) => {
@@ -10,6 +11,14 @@ function decodePNG(filePath) {
             resolve(pixels);
         });
     });
+}
+
+function deletePNGs(files, dirPath) {
+    for (const file of files) {
+        const filePath = path.join(dirPath, file);
+        fs.unlinkSync(filePath);
+        console.log('Deleted file:', filePath);
+    }
 }
 
 async function createGifFromPngs(dirPath, outputFilePath) {
@@ -35,11 +44,8 @@ async function createGifFromPngs(dirPath, outputFilePath) {
     encoder.finish();
     console.log('GIF created at:', outputFilePath);
 
-    // Delete the PNG files
-    for (const file of files) {
-        const filePath = path.join(dirPath, file);
-        fs.unlinkSync(filePath);
-        console.log('Deleted file:', filePath);
+    if (config.deletePNGs) {
+        deletePNGs(files, dirPath);
     }
 }
 
