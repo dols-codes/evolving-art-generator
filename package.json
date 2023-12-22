@@ -14,7 +14,7 @@
     "url": "git+https://github.com/dols-codes/evolving-art-generator.git"
   },
   "author": "Dols",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dols-codes/evolving-art-generator/issues"
   },
