@@ -1,0 +1,22 @@
+{
+  "name": "evolving-art-generator",
+  "version": "1.0.0",
+  "description": "A tool to visualize the evolution of generative art over time",
+  "main": "index.js",
+  "bin": {
+    "artevolve": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dols-codes/evolving-art-generator.git"
+  },
+  "author": "Dols",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dols-codes/evolving-art-generator/issues"
+  },
+  "homepage": "https://github.com/dols-codes/evolving-art-generator#readme"
+}

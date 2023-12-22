@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { takeScreenshotWhenRendered } = require('./src/browser');
 const { generateDateArray } = require('./src/dates');
 const { processInBatches } = require('./src/batchProcessor');
