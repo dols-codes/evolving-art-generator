@@ -5,7 +5,7 @@ async function takeScreenshotWhenRendered(url, datetime, dirPath, imageName) {
     console.log(imageName);
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: false, // set to true in production
+        headless: 'new', // set to false to open each browser for debugging
     });
     const page = await browser.newPage();
 
