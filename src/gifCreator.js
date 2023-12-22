@@ -25,7 +25,7 @@ async function createGifFromPngs(dirPath, outputFilePath) {
     const files = fs.readdirSync(dirPath).filter(file => file.endsWith('.png'));
     files.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
 
-    const encoder = new GIFEncoder(800, 600); // Adjust to match PNG dimensions
+    const encoder = new GIFEncoder(config.width, config.height);
     encoder.createReadStream().pipe(fs.createWriteStream(outputFilePath));
 
     encoder.start();

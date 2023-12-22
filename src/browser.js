@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
+const config = require('../config/default.json');
 
 async function takeScreenshotWhenRendered(url, datetime, dirPath, imageName) {
     console.log(imageName);
@@ -8,6 +9,12 @@ async function takeScreenshotWhenRendered(url, datetime, dirPath, imageName) {
         headless: 'new', // set to false to open each browser for debugging
     });
     const page = await browser.newPage();
+
+    await page.setViewport({
+        width: config.width,
+        height: config.height,
+        deviceScaleFactor: 1,
+    });
 
     await page.evaluateOnNewDocument((datetime) => {
         const OriginalDate = Date;
