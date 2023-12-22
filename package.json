@@ -18,5 +18,13 @@
   "bugs": {
     "url": "https://github.com/dols-codes/evolving-art-generator/issues"
   },
-  "homepage": "https://github.com/dols-codes/evolving-art-generator#readme"
+  "homepage": "https://github.com/dols-codes/evolving-art-generator#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "gifencoder": "^2.0.1",
+    "path": "^0.12.7",
+    "png-js": "^1.0.0",
+    "puppeteer": "^21.6.1",
+    "yargs": "^17.7.2"
+  }
 }
