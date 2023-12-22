@@ -1,6 +1,8 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
+const GIFEncoder = require('gifencoder');
+const PNG = require('png-js');
 
 // TODO: mess with frame sizing to generate most clear image (see if there's a way to ensure high quality image)
 // TODO: make this an executable file with params to control startDate, endDate, interval, and possibly concurrent page loads
@@ -94,6 +96,51 @@ const maxConcurrentBrowsers = 5;
 const datetimes = generateDateArray(startDateTime, endDateTime, interval);
 const tasks = datetimes.map((datetime, index) => () => takeScreenshotWhenRendered(url, datetime, dirPath, index + 1));
 
+function decodePNG(filePath) {
+    return new Promise((resolve, reject) => {
+        const png = new PNG(fs.readFileSync(filePath));
+        png.decode(pixels => {
+            resolve(pixels);
+        });
+    });
+}
+
+async function createGifFromPngs(dirPath, outputFilePath) {
+    const files = fs.readdirSync(dirPath).filter(file => file.endsWith('.png'));
+    files.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+
+    const encoder = new GIFEncoder(800, 600); // Adjust to match PNG dimensions
+    encoder.createReadStream().pipe(fs.createWriteStream(outputFilePath));
+
+    encoder.start();
+    encoder.setRepeat(0);
+    encoder.setDelay(500);
+    encoder.setQuality(10);
+
+    for (const file of files) {
+        const filePath = path.join(dirPath, file);
+        console.log('Processing file:', filePath);
+
+        const pixels = await decodePNG(filePath);
+        encoder.addFrame(pixels);
+    }
+
+    encoder.finish();
+    console.log('GIF created at:', outputFilePath);
+
+    // Delete the PNG files
+    for (const file of files) {
+        const filePath = path.join(dirPath, file);
+        fs.unlinkSync(filePath);
+        console.log('Deleted file:', filePath);
+    }
+}
+
+// After all batches are processed
 processInBatches(tasks, maxConcurrentBrowsers).then(() => {
-    console.log('All tasks completed');
+    console.log('All tasks completed. Creating GIF...');
+
+    // Path where the GIF will be saved
+    const gifPath = path.join(dirPath, 'output.gif');
+    createGifFromPngs(dirPath, gifPath);
 });
