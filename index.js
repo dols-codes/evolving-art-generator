@@ -7,8 +7,7 @@ const config = require('./config/default.json');
 const fs = require('fs');
 const path = require('path');
 
-// TODO: mess with frame sizing to generate most clear image (see if there's a way to ensure high quality image)
-// TODO: make this an executable file with params to control startDate, endDate, interval, and possibly concurrent page loads
+// TODO: make this an executable file with params to control config settings
 
 // Create a new directory for each execution
 const dirName = `render_${Date.now()}`;

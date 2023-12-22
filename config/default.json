@@ -1,10 +1,12 @@
 {
     "url": "https://generator.artblocks.io/0x99a9b7c1116f9ceeb1652de04d5969cce509b069/476000025",
     "startDateTime": "2023-11-02T00:00:00Z",
-    "endDateTime": "2023-11-10T00:00:00Z",
-    "interval": 86400,
+    "endDateTime": "2023-11-15T00:00:00Z",
+    "interval": 43200,
     "maxConcurrentBrowsers": 5,
     "deletePNGs": true,
     "height": 1003,
-    "width": 1337
+    "width": 1337,
+    "gifQuality": 5,
+    "_gifQualityComment": "ranges from 1-20 with 1 being highest quality but will create larger file and take longer to generate" 
 }
