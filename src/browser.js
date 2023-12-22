@@ -1,9 +1,8 @@
 /* eslint-disable no-undef */
 const puppeteer = require('puppeteer');
 const path = require('path');
-const config = require('../config/default.json');
 
-async function takeScreenshotWhenRendered(url, datetime, dirPath, imageName) {
+async function takeScreenshotWhenRendered(url, datetime, dirPath, imageName, width, height) {
   console.log(imageName);
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -12,8 +11,8 @@ async function takeScreenshotWhenRendered(url, datetime, dirPath, imageName) {
   const page = await browser.newPage();
 
   await page.setViewport({
-    width: config.width,
-    height: config.height,
+    width,
+    height,
     deviceScaleFactor: 1,
   });
 

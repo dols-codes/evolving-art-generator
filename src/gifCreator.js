@@ -2,7 +2,6 @@ const GIFEncoder = require('gifencoder');
 const PNG = require('png-js');
 const fs = require('fs');
 const path = require('path');
-const config = require('../config/default.json');
 
 function decodePNG(filePath) {
   return new Promise((resolve) => {
@@ -13,7 +12,7 @@ function decodePNG(filePath) {
   });
 }
 
-function deletePNGs(files, dirPath) {
+function removePNGs(files, dirPath) {
   files.forEach((file) => {
     const filePath = path.join(dirPath, file);
     fs.unlinkSync(filePath);
@@ -21,17 +20,17 @@ function deletePNGs(files, dirPath) {
   });
 }
 
-async function createGifFromPngs(dirPath, outputFilePath) {
+async function createGifFromPngs(dirPath, outputFilePath, width, height, gifQuality, deletePNGs) {
   const files = fs.readdirSync(dirPath).filter((file) => file.endsWith('.png'));
   files.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
 
-  const encoder = new GIFEncoder(config.width, config.height);
+  const encoder = new GIFEncoder(width, height);
   encoder.createReadStream().pipe(fs.createWriteStream(outputFilePath));
 
   encoder.start();
   encoder.setRepeat(0);
   encoder.setDelay(500);
-  encoder.setQuality(config.gifQuality);
+  encoder.setQuality(gifQuality);
 
   // eslint-disable-next-line no-restricted-syntax
   for (const file of files) {
@@ -46,8 +45,8 @@ async function createGifFromPngs(dirPath, outputFilePath) {
   encoder.finish();
   console.log('GIF created at:', outputFilePath);
 
-  if (config.deletePNGs) {
-    deletePNGs(files, dirPath);
+  if (deletePNGs) {
+    removePNGs(files, dirPath);
   }
 }
 
