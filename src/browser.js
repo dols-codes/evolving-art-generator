@@ -11,6 +11,7 @@ async function takeScreenshotWhenRendered(
   height,
   waitFor,
   waitForSelector,
+  waitForTime,
 ) {
   console.log(imageName);
   const browser = await puppeteer.launch({
@@ -63,6 +64,8 @@ async function takeScreenshotWhenRendered(
     await page.waitForFunction(() => window.renderingDone, { timeout: 0 });
   } else if (waitFor === 'selector') {
     await page.waitForSelector(waitForSelector);
+  } else if (waitFor === 'time') {
+    await new Promise((r) => { setTimeout(r, waitForTime * 1000); });
   }
 
   // Take a screenshot after the rendering is done

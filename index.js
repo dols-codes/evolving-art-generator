@@ -17,6 +17,7 @@ const {
   gifQuality,
   waitFor,
   waitForSelector,
+  waitForTime,
 } = yargs(hideBin(process.argv))
   .option('url', {
     describe: 'URL of the art generator',
@@ -66,7 +67,7 @@ const {
   })
   .option('waitFor', {
     // eslint-disable-next-line max-len
-    describe: 'type of event to wait for. Options: function, selector, or empty string for immediate screenshot after network idle',
+    describe: 'type of event to wait for. Options: function, selector, time or empty string for immediate screenshot after network idle',
     type: 'string',
     default: 'function',
   })
@@ -74,6 +75,11 @@ const {
     describe: 'selector to wait for before generating screenshot. Must be set if waitFor is selector',
     type: 'string',
     default: 'canvas',
+  })
+  .option('waitForTime', {
+    describe: 'number of seconds to wait for each image to load before capturing screen if using waitFor = time',
+    type: 'number',
+    default: 60,
   })
   .help()
   .alias('help', 'h')
@@ -102,6 +108,7 @@ const tasks = datetimes
     height,
     waitFor,
     waitForSelector,
+    waitForTime,
   ));
 
 // After all batches are processed
