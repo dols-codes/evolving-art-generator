@@ -2,7 +2,16 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 
-async function takeScreenshotWhenRendered(url, datetime, dirPath, imageName, width, height) {
+async function takeScreenshotWhenRendered(
+  url,
+  datetime,
+  dirPath,
+  imageName,
+  width,
+  height,
+  waitFor,
+  waitForSelector,
+) {
   console.log(imageName);
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -50,8 +59,11 @@ async function takeScreenshotWhenRendered(url, datetime, dirPath, imageName, wid
     };
   });
 
-  // Listen for the flag to be set
-  await page.waitForFunction(() => window.renderingDone, { timeout: 0 });
+  if (waitFor === 'function') {
+    await page.waitForFunction(() => window.renderingDone, { timeout: 0 });
+  } else if (waitFor === 'selector') {
+    await page.waitForSelector(waitForSelector);
+  }
 
   // Take a screenshot after the rendering is done
   console.log('Rendering complete. Taking screenshot...');

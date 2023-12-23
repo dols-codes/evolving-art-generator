@@ -15,10 +15,13 @@ const {
   height,
   width,
   gifQuality,
+  waitFor,
+  waitForSelector,
 } = yargs(hideBin(process.argv))
   .option('url', {
     describe: 'URL of the art generator',
     type: 'string',
+    // eslint-disable-next-line max-len
     default: 'https://generator.artblocks.io/0x99a9b7c1116f9ceeb1652de04d5969cce509b069/476000025',
   })
   .option('startDateTime', {
@@ -61,6 +64,17 @@ const {
     type: 'number',
     default: 5,
   })
+  .option('waitFor', {
+    // eslint-disable-next-line max-len
+    describe: 'type of event to wait for. Options: function, selector, or empty string for immediate screenshot after network idle',
+    type: 'string',
+    default: 'function',
+  })
+  .option('waitForSelector', {
+    describe: 'selector to wait for before generating screenshot. Must be set if waitFor is selector',
+    type: 'string',
+    default: 'canvas',
+  })
   .help()
   .alias('help', 'h')
   .argv;
@@ -79,7 +93,16 @@ if (!fs.existsSync(dirPath)) {
 
 const datetimes = generateDateArray(startDateTime, endDateTime, interval);
 const tasks = datetimes
-  .map((datetime, index) => () => takeScreenshotWhenRendered(url, datetime, dirPath, index + 1, width, height));
+  .map((datetime, index) => () => takeScreenshotWhenRendered(
+    url,
+    datetime,
+    dirPath,
+    index + 1,
+    width,
+    height,
+    waitFor,
+    waitForSelector,
+  ));
 
 // After all batches are processed
 processInBatches(tasks, maxConcurrentBrowsers).then(() => {
